@@ -1,0 +1,48 @@
+
+/* Summary Item Styles */
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-item-info {
+    flex-grow: 1;
+    padding-right: 15px;
+}
+
+.summary-item-title {
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.summary-item-qty {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.summary-item-price {
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+/* Scrollbar for Summary */
+#summaryItems::-webkit-scrollbar {
+    width: 6px;
+}
+#summaryItems::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.02);
+}
+#summaryItems::-webkit-scrollbar-thumb {
+    background: var(--glass-border);
+    border-radius: 10px;
+}

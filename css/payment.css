@@ -1,0 +1,51 @@
+/* Payment Methods */
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    padding: 1.2rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.payment-option:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.payment-option.selected {
+    border-color: var(--accent-primary);
+    background: rgba(108, 64, 236, 0.1);
+    box-shadow: 0 0 15px rgba(108, 64, 236, 0.2);
+}
+
+.payment-option input[type="radio"] {
+    accent-color: var(--accent-primary);
+    transform: scale(1.2);
+}
+
+.payment-content {
+    flex-grow: 1;
+}
+
+.payment-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.payment-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
