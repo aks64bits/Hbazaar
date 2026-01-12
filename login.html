@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBazaar - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .auth-container {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 8px 32px var(--glass-shadow);
+        }
+
+        .auth-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent-primary);
+            outline: none;
+            box-shadow: 0 0 10px rgba(108, 64, 236, 0.2);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .auth-footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .auth-footer a {
+            color: var(--accent-secondary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-footer a:hover {
+            color: var(--accent-primary);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-globes">
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+    </div>
+
+    <div class="app-container">
+        <header class="glass-header">
+            <a href="index.html" class="logo" style="text-decoration: none;">
+                <i class="fa-solid fa-shapes"></i>
+                <span>HBazaar</span>
+            </a>
+            <a href="index.html" style="color:white; text-decoration:none;"><i class="fa-solid fa-arrow-left"></i>
+                Home</a>
+        </header>
+
+        <div class="auth-container">
+            <div class="auth-card bounce-in">
+                <h1 class="auth-title">Welcome Back</h1>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="email" required placeholder="name@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="password" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="premium-btn auth-btn">Log In</button>
+                    <div id="errorMsg" style="color: #ff4081; text-align: center; margin-top: 1rem; display: none;">
+                    </div>
+                </form>
+                <div class="auth-footer">
+                    New to HBazaar? <a href="register.html">Create an Account</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="loginSuccessModal" class="cart-modal-overlay"
+        style="align-items: center; justify-content: center; background: rgba(0,0,0,0.8);">
+        <div class="auth-card bounce-in" style="text-align: center; max-width: 400px;">
+            <div style="font-size: 4rem; color: var(--accent-secondary); margin-bottom: 1rem;">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Welcome Back!</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">Logging you in securely...</p>
+            <div class="spinner" style="margin: 0 auto;"></div>
+        </div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const btn = e.target.querySelector('button');
+            const errorMsg = document.getElementById('errorMsg');
+            const successModal = document.getElementById('loginSuccessModal');
+
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Authenticating...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                const result = DB.loginUser(email, password);
+                if (result.success) {
+                    // Show Success Modal
+                    successModal.classList.add('open');
+
+                    // Voice Welcome
+                    if ('speechSynthesis' in window) {
+                        const utterance = new SpeechSynthesisUtterance("Welcome to H Bazaar");
+                        utterance.rate = 0.9;
+                        utterance.pitch = 1.1;
+                        speechSynthesis.speak(utterance);
+                    }
+
+                    // Redirect after delay
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2500);
+
+                } else {
+                    errorMsg.textContent = result.message;
+                    errorMsg.style.display = 'block';
+                    btn.innerHTML = 'Log In';
+                    btn.disabled = false;
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>

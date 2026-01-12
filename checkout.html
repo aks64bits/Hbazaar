@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBazaar - Secure Checkout</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Checkout Specific Styles */
+        .checkout-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 10px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(12px);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--glass-border);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 64, 236, 0.4);
+        }
+
+        .payment-option-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--accent-primary);
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+
+            .order-summary {
+                grid-row: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-globes">
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Minimal Header -->
+        <header style="padding: 20px 40px; display:flex; align-items:center; justify-content:space-between;">
+            <a href="index.html" class="logo"
+                style="text-decoration: none; font-size:1.5rem; font-weight:700; color:white;">
+                <i class="fa-solid fa-shapes"></i> HBazaar
+            </a>
+            <a href="shop.html" style="color: var(--text-secondary); text-decoration:none;"><i
+                    class="fa-solid fa-arrow-left"></i> Back to Shop</a>
+        </header>
+
+        <main class="checkout-container">
+            <!-- Left: Form -->
+            <div>
+                <div class="glass-card mb-4">
+                    <h2 class="section-title"><i class="fa-solid fa-truck-fast"></i> Shipping Details</h2>
+                    <form id="checkoutForm">
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label>First Name</label>
+                                <input type="text" id="chkFirstName" required placeholder="John">
+                            </div>
+                            <div class="input-group">
+                                <label>Last Name</label>
+                                <input type="text" id="chkLastName" required placeholder="Doe">
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Email Address</label>
+                            <input type="email" id="chkEmail" required placeholder="john@example.com">
+                        </div>
+
+                        <div class="input-group">
+                            <label>Street Address</label>
+                            <input type="text" id="chkAddress" required placeholder="123 Cyberpunk Avenue">
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label>City</label>
+                                <input type="text" id="chkCity" required placeholder="Neo Mumbai">
+                            </div>
+                            <div class="input-group">
+                                <label>ZIP / Postal Code</label>
+                                <input type="text" id="chkZip" required placeholder="400001">
+                            </div>
+                        </div>
+
+                        <h2 class="section-title" style="margin-top: 30px;"><i class="fa-solid fa-credit-card"></i>
+                            Payment Method</h2>
+
+                        <div class="payment-option-card">
+                            <div
+                                style="width: 20px; height: 20px; background: var(--accent-primary); border-radius: 50%; display:grid; place-items:center;">
+                                <div style="width: 8px; height: 8px; background: white; border-radius: 50%;"></div>
+                            </div>
+                            <i class="fa-solid fa-money-bill-wave" style="font-size: 1.5rem;"></i>
+                            <div>
+                                <div style="font-weight: 600;">Cash on Delivery</div>
+                                <div style="font-size: 0.8rem; color: var(--text-secondary);">Pay in cash upon delivery.
+                                    No extra fees.</div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="checkout-btn">Complete Order</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right: Summary -->
+            <div class="order-summary">
+                <div class="glass-card" style="position: sticky; top: 20px;">
+                    <h2 class="section-title">Order Summary</h2>
+                    <div id="summaryItems" style="margin-bottom: 20px; max-height: 400px; overflow-y: auto;">
+                        <!-- JS Injected -->
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="summarySubtotal">₹0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax (10%)</span>
+                        <span id="summaryTax">₹0.00</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Total</span>
+                        <span id="summaryTotal">₹0.00</span>
+                    </div>
+
+                    <div
+                        style="margin-top: 20px; font-size: 0.85rem; color: var(--text-secondary); text-align: center;">
+                        <i class="fa-solid fa-shield-alt"></i> Secure Checkout. Your data is protected.
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/db.js"></script>
+    <script src="js/checkout.js"></script>
+    <!-- We DO NOT include app.js here to avoid logic conflicts. 
+         app.js is for the main site (shop, home, etc). 
+         checkout.js acts as the standalone app for this page. -->
+</body>
+
+</html>

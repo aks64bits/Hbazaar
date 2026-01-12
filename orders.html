@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBazaar - My Orders</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Dashboard Specific Styles */
+        .dashboard-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+            min-height: 60vh;
+        }
+
+        .dashboard-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, white 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .order-card-premium {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(12px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .order-card-premium:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+        }
+
+        .oc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .oc-id {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .oc-date {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .oc-status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Status colors handled by JS usually, but defaults here */
+        .status-placed {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+
+        .status-shipped {
+            background: rgba(241, 196, 15, 0.2);
+            color: #f1c40f;
+            border: 1px solid rgba(241, 196, 15, 0.3);
+        }
+
+        .status-delivered {
+            background: rgba(0, 200, 83, 0.2);
+            color: #00c853;
+            border: 1px solid rgba(0, 200, 83, 0.3);
+        }
+
+        .status-cancelled {
+            background: rgba(255, 64, 129, 0.2);
+            color: #ff4081;
+            border: 1px solid rgba(255, 64, 129, 0.3);
+        }
+
+        /* Progress Tracker */
+        .status-tracker {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .tracker-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 0;
+            transform: translateY(-50%);
+        }
+
+        .tracker-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--card-bg);
+            /* Dark bg to cover line */
+            border: 2px solid var(--text-secondary);
+            border-radius: 50%;
+            margin: 0 auto 8px;
+            box-shadow: 0 0 0 4px var(--card-bg);
+            /* padding effect */
+            transition: 0.3s;
+        }
+
+        .step-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .step-active .step-dot {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 10px var(--accent-primary);
+        }
+
+        .step-active .step-label {
+            color: white;
+        }
+
+        /* Items Grid */
+        .oc-items {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .oc-item-thumb {
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .oc-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .oc-total {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .oc-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: white;
+        }
+
+        .btn-outline:hover {
+            border-color: white;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-danger-outline {
+            background: transparent;
+            border: 1px solid rgba(255, 64, 129, 0.4);
+            color: #ff4081;
+        }
+
+        .btn-danger-outline:hover {
+            background: rgba(255, 64, 129, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-globes">
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+    </div>
+
+    <!-- Mobile Navigation Overlay (For Header Functionality) -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay">
+        <div class="mobile-nav-drawer">
+            <div class="mobile-nav-header">
+                <div class="mobile-nav-title">Menu</div>
+                <button class="close-menu-btn" id="closeMenuBtn"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <nav class="mobile-links">
+                <a href="index.html" class="mobile-link"><i class="fa-solid fa-home"></i> Home</a>
+                <a href="shop.html" class="mobile-link"><i class="fa-solid fa-store"></i> Shop</a>
+                <a href="orders.html" class="mobile-link active"><i class="fa-solid fa-box"></i> Orders</a>
+                <a href="about.html" class="mobile-link"><i class="fa-solid fa-info-circle"></i> About</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Header (Standard) -->
+        <header class="glass-header">
+            <a href="index.html" class="logo" style="text-decoration: none;">
+                <i class="fa-solid fa-shapes"></i>
+                <span>HBazaar</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="desktop-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="shop.html" class="nav-link">Shop</a>
+                <a href="orders.html" class="nav-link active">Orders</a>
+                <div class="cart-btn" id="cartBtn">
+                    <i class="fa-solid fa-shopping-cart"></i>
+                    <span class="cart-badge hidden" id="cartBadge">0</span>
+                </div>
+            </nav>
+
+            <!-- Mobile Actions -->
+            <div style="display: flex; align-items: center; gap: 15px;" class="mobile-only-actions">
+                <div class="cart-btn" style="display: none;" id="mobileCartBtn">
+                    <i class="fa-solid fa-shopping-cart"></i>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+            <style>
+                @media (max-width: 768px) {
+                    #mobileCartBtn {
+                        display: block !important;
+                    }
+                }
+            </style>
+        </header>
+
+        <main class="dashboard-container">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Order History</h1>
+                    <p style="color:var(--text-secondary); margin-top:5px;">Track, return, or buy items again.</p>
+                </div>
+                <!-- User Avatar/Info could go here -->
+            </div>
+
+            <div id="ordersContainer">
+                <!-- Orders Injected Here -->
+                <div style="text-align: center; margin-top: 50px; opacity: 0.6;">
+                    <i class="fa-solid fa-circle-notch fa-spin fa-2x"></i>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer (Standard) -->
+        <footer class="glass-footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>HBazaar</h3>
+                    <p>The premium destination for digital artifacts and future-ready assets.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="shop.html">Shop</a>
+                    <a href="about.html">About</a>
+                    <a href="orders.html">My Orders</a>
+                </div>
+                <div class="footer-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+                <div class="footer-social">
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-discord"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2024 HBazaar. Crafted for the future.
+            </div>
+        </footer>
+    </div>
+
+    <!-- Rate Modal -->
+    <div class="cart-modal-overlay" id="rateModal"
+        style="align-items: center; justify-content: center; display: none; z-index: 1000;">
+        <div class="glass-card"
+            style="width: 90%; max-width: 400px; padding: 2rem; position: relative; animation: slideUp 0.3s ease;">
+            <button id="closeRateBtn"
+                style="position: absolute; top: 15px; right: 15px; background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;"><i
+                    class="fa-solid fa-times"></i></button>
+
+            <h2 style="text-align: center; margin-bottom: 0.5rem; color: white;">Rate Order</h2>
+            <p style="text-align: center; font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.5rem;">How
+                was your experience?</p>
+
+            <div class="star-rating"
+                style="display: flex; justify-content: center; gap: 10px; font-size: 2rem; margin-bottom: 1.5rem; cursor: pointer;">
+                <i class="fa-regular fa-star" data-val="1"></i>
+                <i class="fa-regular fa-star" data-val="2"></i>
+                <i class="fa-regular fa-star" data-val="3"></i>
+                <i class="fa-regular fa-star" data-val="4"></i>
+                <i class="fa-regular fa-star" data-val="5"></i>
+            </div>
+
+            <textarea id="rateComment" placeholder="Write your review here..."
+                style="width: 100%; height: 100px; background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 10px; padding: 15px; color: white; margin-bottom: 1.5rem; resize: none; font-family: inherit;"></textarea>
+
+            <button id="submitRateBtn" class="premium-btn" style="width: 100%;">Submit Review</button>
+        </div>
+    </div>
+
+    <!-- Hidden Cart Modal Structure for app.js to use -->
+    <!-- app.js expects this structure to function -->
+    <div class="cart-modal-overlay" id="cartModal">
+        <div class="cart-sidebar">
+            <div class="cart-header">
+                <h2>Your Bag</h2>
+                <button id="closeCartBtn"
+                    style="background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;"><i
+                        class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="cart-items" id="cartItems"></div>
+            <div class="cart-footer">
+                <div
+                    style="display:flex; justify-content:space-between; font-size:1.2rem; font-weight:700; margin-bottom:1rem;">
+                    <span>Total</span>
+                    <span id="cartTotal">₹0.00</span>
+                </div>
+                <button class="checkout-btn" id="checkoutBtn">Checkout <i class="fa-solid fa-lock"
+                        style="font-size:0.9rem; margin-left:8px; opacity:0.7;"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/db.js"></script>
+    <script src="js/orders.js"></script>
+    <!-- Include app.js for Header/Cart/Footer functionality -->
+    <script src="js/app.js"></script>
+</body>
+
+</html>

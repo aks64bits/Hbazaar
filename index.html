@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBazaar - Premium Digital Art</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="background-globes">
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+    </div>
+
+    <!-- Mobile Navigation Overlay (Fixed to Body) -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay">
+        <div class="mobile-nav-drawer">
+            <div class="mobile-nav-header">
+                <div class="mobile-nav-title">Menu</div>
+                <button class="close-menu-btn" id="closeMenuBtn"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <nav class="mobile-links">
+                <a href="index.html" class="mobile-link active"><i class="fa-solid fa-home"></i> Home</a>
+                <a href="shop.html" class="mobile-link"><i class="fa-solid fa-store"></i> Shop</a>
+                <a href="orders.html" class="mobile-link"><i class="fa-solid fa-box"></i> Orders</a>
+                <a href="about.html" class="mobile-link"><i class="fa-solid fa-info-circle"></i> About</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="glass-header">
+            <a href="index.html" class="logo" style="text-decoration: none;">
+                <i class="fa-solid fa-shapes"></i>
+                <span>HBazaar</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="desktop-nav">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="shop.html" class="nav-link">Shop</a>
+                <a href="orders.html" class="nav-link">Orders</a>
+                <div class="cart-btn" id="cartBtn">
+                    <i class="fa-solid fa-shopping-cart"></i>
+                    <span class="cart-badge hidden" id="cartBadge">0</span>
+                </div>
+            </nav>
+
+            <!-- Mobile Actions -->
+            <div style="display: flex; align-items: center; gap: 15px;" class="mobile-only-actions">
+                <!-- Mobile Cart Icon (Visible on mobile) -->
+                <div class="cart-btn mobile-menu-btn" style="padding: 0; font-size: 1.2rem; display: none;">
+                    <i class="fa-solid fa-shopping-cart"></i>
+                    <!-- We use the same badge ID? No, IDs must be unique. JS should handle classes or multiple badges. 
+                        For now, let's keep it simple. The JS I wrote looks for ID 'cartBadge'. 
+                        I should probably just show the desktop nav cart button on mobile? 
+                        No, desktop nav is hidden. 
+                        Let's add a SECOND badge logic in JS or just one cart button logic.
+                        Actually, I'll rely on the desktop nav hidden logic. The mobile menu button is just for the menu.
+                        Wait, where is the cart on mobile? usually top right.
+                        I'll add a cart icon next to the hamburger.
+                   -->
+                </div>
+
+                <!-- Cart Icon for Mobile (Custom) -->
+                <div class="cart-btn" style="display: none;" id="mobileCartBtn">
+                    <i class="fa-solid fa-shopping-cart"></i>
+                    <!-- No badge here for now, or I'll duplicate it? 
+                         Let's just use the main cart logic for simplicity and fix in V2.1 if needed.
+                         Actually my CSS hides .desktop-nav on mobile. So the cart icon is gone.
+                         I should add a cart icon here that displays on mobile.
+                    -->
+                </div>
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Quick fix for mobile cart: existing JS targets ID cartBtn. 
+                 I'll add a mobile cart icon and update JS to handle class .cart-btn click.
+                 I already updated JS to handle .cart-btn class!
+            -->
+            <style>
+                @media (max-width: 768px) {
+                    #mobileCartBtn {
+                        display: block !important;
+                    }
+                }
+            </style>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Hero Section -->
+            <section class="hero">
+                <h1 class="bounce-in">Future of <br> <span class="gradient-text">Digital Art</span></h1>
+                <p class="fade-in" style="animation-delay: 0.2s;">Curated collection of premium digital assets for the
+                    next generation of creators.</p>
+                <div style="margin-top: 2.5rem;" class="fade-in" style="animation-delay: 0.4s;">
+                    <a href="shop.html" class="premium-btn">
+                        <span>Explore Collection</span> <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Featured Section -->
+            <section style="margin-bottom: 6rem;">
+                <div style="display:flex; justify-content:space-between; align-items:end; margin-bottom: 2rem;">
+                    <h2 style="font-size: 2rem; font-weight:700;">Featured Drops</h2>
+                    <a href="shop.html"
+                        style="color:var(--accent-secondary); text-decoration:none; display:flex; align-items:center; gap:5px;">View
+                        All <i class="fa-solid fa-arrow-right" style="font-size:0.8rem"></i></a>
+                </div>
+
+                <div class="shop-grid fade-in" id="featuredGrid" style="animation-delay: 0.6s;">
+                    <!-- Injected by JS -->
+                    <div class="loader">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal-overlay" id="cartModal">
+        <div class="cart-sidebar">
+            <div class="cart-header">
+                <h2>Your Bag</h2>
+                <button id="closeCartBtn"
+                    style="background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;"><i
+                        class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <!-- Items injected by JS -->
+            </div>
+            <div class="cart-footer">
+                <div
+                    style="display:flex; justify-content:space-between; font-size:1.2rem; font-weight:700; margin-bottom:1rem;">
+                    <span>Total</span>
+                    <span id="cartTotal">₹0.00</span>
+                </div>
+                <button class="checkout-btn" id="checkoutBtn">Checkout <i class="fa-solid fa-lock"
+                        style="font-size:0.9rem; margin-left:8px; opacity:0.7;"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

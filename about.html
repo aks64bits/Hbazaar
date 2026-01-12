@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBazaar - About</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="background-globes">
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+    </div>
+
+    <div class="mobile-nav-overlay" id="mobileNavOverlay">
+        <div class="mobile-nav-drawer">
+            <div class="mobile-nav-header">
+                <div class="mobile-nav-title">Menu</div>
+                <button class="close-menu-btn" id="closeMenuBtn"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <nav class="mobile-links">
+                <a href="index.html" class="mobile-link"><i class="fa-solid fa-home"></i> Home</a>
+                <a href="shop.html" class="mobile-link"><i class="fa-solid fa-store"></i> Shop</a>
+                <a href="orders.html" class="mobile-link"><i class="fa-solid fa-box"></i> Orders</a>
+                <a href="about.html" class="mobile-link active"><i class="fa-solid fa-info-circle"></i> About</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <header class="glass-header">
+            <a href="index.html" class="logo" style="text-decoration: none;">
+                <i class="fa-solid fa-shapes"></i>
+                <span>HBazaar</span>
+            </a>
+            <nav class="desktop-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="shop.html" class="nav-link">Shop</a>
+                <a href="orders.html" class="nav-link">Orders</a>
+                <a href="about.html" class="nav-link active">About</a>
+                <div class="cart-btn" id="cartBtn">
+                    <i class="fa-solid fa-shopping-cart"></i>
+                    <span class="cart-badge hidden" id="cartBadge">0</span>
+                </div>
+            </nav>
+            <div style="display: flex; align-items: center; gap: 15px;" class="mobile-only-actions">
+                <div class="cart-btn" style="display: none;" id="mobileCartBtn"><i
+                        class="fa-solid fa-shopping-cart"></i></div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fa-solid fa-bars"></i></button>
+            </div>
+            <style>
+                @media (max-width: 768px) {
+                    #mobileCartBtn {
+                        display: block !important;
+                    }
+                }
+            </style>
+        </header>
+
+        <main>
+            <section class="hero" style="margin: 2rem 0 3rem;">
+                <h1 style="font-size: 3rem;">About <span class="gradient-text">HBazaar</span></h1>
+            </section>
+
+            <section style="max-width: 800px; margin: 0 auto 6rem;" class="glass-content">
+                <!-- recycling glass-header class for container style -->
+                <p style="font-size: 1.2rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 2rem;">
+                    HBazaar is the premier destination for high-quality digital assets. Born from a passion for
+                    cyberpunk aesthetics and future-tech interfaces, we provide creators with the tools they need to
+                    build the impossible.
+                </p>
+                <p style="font-size: 1.2rem; line-height: 1.8; color: var(--text-secondary);">
+                    <strong>HBazaar</strong> is proudly designed and developed by <strong>Akash Singh</strong>, a
+                    visionary developer dedicated to pushing the boundaries of web experiences. Every pixel and line of
+                    code is crafted with precision to deliver a premium user journey.
+                </p>
+                <div style="margin-top: 3rem; text-align:center;">
+                    <p style="color:var(--accent-primary); font-weight:600; margin-bottom:1rem;">Managed & Designed by
+                        Akash Singh</p>
+                    <a href="shop.html" class="premium-btn">Start Browsing</a>
+                </div>
+            </section>
+        </main>
+    </div>
+    <div class="cart-modal-overlay" id="cartModal"> <!-- Copied Modal -->
+        <div class="cart-sidebar">
+            <div class="cart-header">
+                <h2>Your Bag</h2>
+                <button id="closeCartBtn"
+                    style="background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;"><i
+                        class="fa-solid fa-times"></i></button>
+            </div>
+            <div class="cart-items" id="cartItems"></div>
+            <div class="cart-footer">
+                <div
+                    style="display:flex; justify-content:space-between; font-size:1.2rem; font-weight:700; margin-bottom:1rem;">
+                    <span>Total</span>
+                    <span id="cartTotal">₹0.00</span>
+                </div>
+                <button class="checkout-btn" id="checkoutBtn">Checkout <i class="fa-solid fa-lock"
+                        style="font-size:0.9rem; margin-left:8px; opacity:0.7;"></i></button>
+            </div>
+        </div>
+    </div>
+    <script src="js/db.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

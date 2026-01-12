@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBazaar - Shop Collection</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="background-globes">
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+    </div>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay">
+        <div class="mobile-nav-drawer">
+            <div class="mobile-nav-header">
+                <div class="mobile-nav-title">Menu</div>
+                <button class="close-menu-btn" id="closeMenuBtn"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <nav class="mobile-links">
+                <a href="index.html" class="mobile-link"><i class="fa-solid fa-home"></i> Home</a>
+                <a href="shop.html" class="mobile-link active"><i class="fa-solid fa-store"></i> Shop</a>
+                <a href="orders.html" class="mobile-link"><i class="fa-solid fa-box"></i> Orders</a>
+                <a href="about.html" class="mobile-link"><i class="fa-solid fa-info-circle"></i> About</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="glass-header">
+            <a href="index.html" class="logo" style="text-decoration: none;">
+                <i class="fa-solid fa-shapes"></i>
+                <span>HBazaar</span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="desktop-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="shop.html" class="nav-link active">Shop</a>
+                <a href="orders.html" class="nav-link">Orders</a>
+                <div class="cart-btn" id="cartBtn">
+                    <i class="fa-solid fa-shopping-cart"></i>
+                    <span class="cart-badge hidden" id="cartBadge">0</span>
+                </div>
+            </nav>
+
+            <!-- Mobile Actions -->
+            <div style="display: flex; align-items: center; gap: 15px;" class="mobile-only-actions">
+                <div class="cart-btn" style="display: none;" id="mobileCartBtn">
+                    <i class="fa-solid fa-shopping-cart"></i>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+            <style>
+                @media (max-width: 768px) {
+                    #mobileCartBtn {
+                        display: block !important;
+                    }
+                }
+            </style>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <section class="hero" style="margin: 2rem 0 3rem;">
+                <h1 style="font-size: 3rem;">Full <span class="gradient-text">Collection</span></h1>
+                <p style="color:var(--text-secondary);">Browse our exclusive digital artifacts.</p>
+            </section>
+
+            <!-- Product Grid -->
+            <section style="margin-bottom: 6rem;">
+                <!-- Filter Tabs (Visual Only for now) -->
+                <div style="display:flex; justify-content:center; gap:10px; margin-bottom:2rem; flex-wrap:wrap;">
+                    <button class="premium-btn"
+                        style="padding: 8px 16px; font-size: 0.9rem; background: rgba(255,255,255,0.1); border:none; border-radius: 20px;">All</button>
+                    <button class="premium-btn"
+                        style="padding: 8px 16px; font-size: 0.9rem; background: transparent; border: 1px solid var(--glass-border); border-radius: 20px; box-shadow:none;">Neon</button>
+                    <button class="premium-btn"
+                        style="padding: 8px 16px; font-size: 0.9rem; background: transparent; border: 1px solid var(--glass-border); border-radius: 20px; box-shadow:none;">Space</button>
+                    <button class="premium-btn"
+                        style="padding: 8px 16px; font-size: 0.9rem; background: transparent; border: 1px solid var(--glass-border); border-radius: 20px; box-shadow:none;">Abstract</button>
+                </div>
+
+                <div class="shop-grid fade-in" id="productsGrid">
+                    <div class="loader">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+
+
+        <!-- Cart Modal -->
+        <div class="cart-modal-overlay" id="cartModal">
+            <div class="cart-sidebar">
+                <div class="cart-header">
+                    <h2>Your Bag</h2>
+                    <button id="closeCartBtn"
+                        style="background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;"><i
+                            class="fa-solid fa-times"></i></button>
+                </div>
+                <div class="cart-items" id="cartItems">
+                    <!-- Items injected by JS -->
+                </div>
+                <div class="cart-footer">
+                    <div
+                        style="display:flex; justify-content:space-between; font-size:1.2rem; font-weight:700; margin-bottom:1rem;">
+                        <span>Total</span>
+                        <span id="cartTotal">₹0.00</span>
+                    </div>
+                    <button class="checkout-btn" id="checkoutBtn">Checkout <i class="fa-solid fa-lock"
+                            style="font-size:0.9rem; margin-left:8px; opacity:0.7;"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/db.js"></script>
+        <script src="js/app.js"></script>
+    </div>
+
+</body>
+
+</html>
