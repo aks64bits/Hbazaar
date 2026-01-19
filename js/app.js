@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </a>
                 <div style="display:flex; gap:15px; justify-content:center; font-size:1.2rem; margin-bottom:1rem;">
                     <a href="https://www.instagram.com/hbazaar.in/" style="color:white; opacity:0.7; transition:0.3s;"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="+918051648462" style="color:white; opacity:0.7; transition:0.3s;"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://wa.me/918051648462" style="color:white; opacity:0.7; transition:0.3s;"><i class="fa-brands fa-whatsapp"></i></a>
                     <a href="https://www.facebook.com/hbazaar.in/" style="color:white; opacity:0.7; transition:0.3s;"><i class="fa-brands fa-facebook"></i></a>
                 </div>
             </div>
@@ -555,4 +555,5 @@ if ('serviceWorker' in navigator) {
             .catch(err => console.log('Service Worker Registration Failed:', err));
     });
 }
+
 
